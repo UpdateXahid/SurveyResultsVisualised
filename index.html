@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australian Coffee Consumer Insights 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Corporate Blue -->
+    <!-- Application Structure Plan: A single-page dashboard application with a sticky top navigation bar. The structure guides the user through a narrative journey, starting with high-level highlights, moving to an audience profile, then cafe visit frequency, detailed pricing analysis (with interactive tabs), consumer psychology (drivers and anchoring), analyzing the competitive brand landscape, and finally delving into consumption habits. This thematic structure, rather than mirroring the report's linear format, allows users to either get a quick overview or deep-dive into specific areas of interest, enhancing usability and data exploration. -->
+    <!-- Visualization & Content Choices: The application uses a mix of dynamic stat cards for key takeaways, interactive line charts for the Van Westendorp pricing models, horizontal bar charts for comparing ranked data like cafe drivers and brand awareness, and donut charts for simple proportions like specialty coffee awareness. New sections use bar charts to visualize consumption frequency and associations with 'specialty'. This variety keeps the user engaged. All visualizations are built with Chart.js on Canvas, adhering to the NO SVG constraint. Interactivity is provided through hover tooltips on all charts and clickable tabs for the pricing section to prevent information overload. This structure supports the user's journey from broad understanding to specific insights. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F7F9FB;
+            color: #111827;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .nav-link {
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #2563EB;
+            border-bottom-color: #2563EB;
+        }
+        .tab-button {
+            transition: all 0.3s;
+        }
+        .tab-button.active {
+            background-color: #1E3A8A;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-[#1E3A8A]">Coffee Insights 2025</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#overview" class="nav-link text-gray-700 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent">Overview</a>
+                        <a href="#audience" class="nav-link text-gray-700 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent">Audience</a>
+                        <a href="#pricing" class="nav-link text-gray-700 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent">Pricing</a>
+                        <a href="#drivers" class="nav-link text-gray-700 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent">Drivers</a>
+                        <a href="#brands" class="nav-link text-gray-700 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent">Brands</a>
+                        <a href="#habits" class="nav-link text-gray-700 px-3 py-2 rounded-md text-sm font-medium border-b-2 border-transparent">Habits</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        <div class="text-center mb-16 pt-4">
+            <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Proprietary research carried out by Pablo & Rusty's Coffee Roasters.</p>
+            <p class="text-sm text-gray-500">First of its kind.</p>
+        </div>
+
+        <section id="overview" class="mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-4 text-[#1E3A8A]">Australian Coffee Market: At a Glance</h2>
+            <p class="text-center text-lg text-gray-600 mb-12 max-w-3xl mx-auto">A deep dive into the attitudes of 789 Australian coffee drinkers, revealing key insights into pricing, brand loyalty, and what truly drives cafe choice.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <div class="text-5xl font-bold text-[#2563EB] mb-2">$4.88</div>
+                    <h3 class="font-semibold text-lg">Optimal Price</h3>
+                    <p class="text-sm text-gray-500">For a small hot coffee, balancing value and quality perception.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <div class="text-5xl font-bold text-[#2563EB] mb-2">80%</div>
+                    <h3 class="font-semibold text-lg">Taste is King</h3>
+                    <p class="text-sm text-gray-500">Of consumers rate taste and quality as the #1 driver of cafe choice.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <div class="text-5xl font-bold text-[#2563EB] mb-2">9.3%</div>
+                    <h3 class="font-semibold text-lg">Pablo & Rusty's</h3>
+                    <p class="text-sm text-gray-500">Brand awareness, positioning it as a known specialty roaster with room to grow.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <div class="text-5xl font-bold text-[#2563EB] mb-2">+37.5%</div>
+                    <h3 class="font-semibold text-lg">The Anchor Effect</h3>
+                    <p class="text-sm text-gray-500">Education on global prices significantly lifts the consumer's willingness to pay.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="audience" class="mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-4 text-[#1E3A8A]">Audience Profile & Cafe Visits</h2>
+            <p class="text-center text-lg text-gray-600 mb-12 max-w-3xl mx-auto">The survey captured a broad cross-section of Australian coffee drinkers. Understanding who they are and how often they visit cafes provides crucial context for all findings.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md lg:col-span-2">
+                    <h3 class="text-xl font-bold mb-4 text-center">Who We Surveyed</h3>
+                    <ul class="space-y-4 text-gray-700 mt-6">
+                        <li class="flex items-start"><span class="w-6 h-6 mr-3 text-blue-600 flex-shrink-0">📍</span> <span><span class="font-semibold">Location:</span> 70% Metropolitan, 23% Regional, 7% Remote.</span></li>
+                        <li class="flex items-start"><span class="w-6 h-6 mr-3 text-blue-600 flex-shrink-0">⚥</span> <span><span class="font-semibold">Gender:</span> A near-even split of male and female respondents.</span></li>
+                        <li class="flex items-start"><span class="w-6 h-6 mr-3 text-blue-600 flex-shrink-0">🎂</span> <span><span class="font-semibold">Age:</span> A wide distribution across all age groups from 18 to 65+.</span></li>
+                    </ul>
+                     <div class="mt-6">
+                        <h4 class="text-lg font-semibold text-center mb-3">Geographic Distribution</h4>
+                        <div class="chart-container" style="height: 250px;">
+                            <canvas id="stateDistributionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md lg:col-span-3">
+                     <h3 class="text-xl font-bold mb-4 text-center">Cafe Visit Frequency</h3>
+                    <div class="chart-container h-96">
+                         <canvas id="cafeVisitChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-4 text-[#1E3A8A]">The Price is Right: Psychological Sweet Spots</h2>
+            <p class="text-center text-lg text-gray-600 mb-8 max-w-3xl mx-auto">Using the Van Westendorp model, we identified the ideal price points and acceptable ranges for different coffee types. The optimal price is where the fewest consumers find the product "too cheap" or "too expensive."</p>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div id="pricing-tabs" class="flex flex-wrap justify-center gap-2 mb-6">
+                    <button class="tab-button active px-4 py-2 text-sm font-semibold rounded-full bg-gray-200 text-gray-800" data-type="smallHot">Small Hot</button>
+                    <button class="tab-button px-4 py-2 text-sm font-semibold rounded-full bg-gray-200 text-gray-800" data-type="largeHot">Large Hot</button>
+                    <button class="tab-button px-4 py-2 text-sm font-semibold rounded-full bg-gray-200 text-gray-800" data-type="smallIced">Small Iced</button>
+                    <button class="tab-button px-4 py-2 text-sm font-semibold rounded-full bg-gray-200 text-gray-800" data-type="largeIced">Large Iced</button>
+                </div>
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="w-full md:w-2/3">
+                        <div class="chart-container">
+                            <canvas id="pricingChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/3 text-center md:text-left">
+                        <h3 id="pricing-title" class="text-xl font-bold mb-2">Small Hot Coffee</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <p class="text-sm text-gray-500">Optimal Price</p>
+                                <p id="pricing-optimal" class="text-2xl font-bold text-[#2563EB]">$4.88</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Acceptable Range</p>
+                                <p id="pricing-range" class="text-lg font-semibold">$3.97 – $5.18</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="drivers" class="mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-4 text-[#1E3A8A]">The Consumer Mind</h2>
+            <p class="text-center text-lg text-gray-600 mb-12 max-w-3xl mx-auto">Understanding what truly matters to consumers when they choose a cafe and how their perceptions can be shaped by information.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md flex flex-col">
+                    <h3 class="text-xl font-bold mb-4 text-center">What Drives Cafe Choice?</h3>
+                    <div class="chart-container flex-grow h-96 md:h-[500px]">
+                        <canvas id="driversChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md flex flex-col">
+                    <h3 class="text-xl font-bold mb-4 text-center">The Power of Education</h3>
+                    <p class="text-center text-sm text-gray-600 mb-6">A simple sentence about global prices dramatically shifted consumer willingness to pay, highlighting the impact of price anchoring.</p>
+                    <div class="flex-grow flex flex-col justify-center">
+                        <div class="flex flex-col md:flex-row gap-4 items-center justify-center">
+                            <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg text-center">
+                                <h4 class="font-semibold text-lg mb-1">Before Education</h4>
+                                <p class="text-gray-500 text-sm mb-2">Based on local experience</p>
+                                <div class="text-3xl font-bold text-gray-700">$4.88</div>
+                                <p class="font-semibold text-gray-600">Optimal Price</p>
+                            </div>
+                            <div class="text-4xl font-bold text-[#2563EB] transform md:rotate-0 rotate-90">
+                            →
+                            </div>
+                            <div class="bg-[#1E3A8A] text-white p-6 rounded-lg text-center ring-4 ring-[#60A5FA]/50">
+                                <h4 class="font-semibold text-lg mb-1">After Education</h4>
+                                <p class="text-gray-300 text-sm mb-2">Told about global prices</p>
+                                <div class="text-3xl font-bold text-white">$6.71</div>
+                                <p class="font-semibold text-gray-200">New Optimal Price</p>
+                            </div>
+                        </div>
+                         <p class="text-center text-sm text-gray-600 mt-6">This <span class="font-bold text-blue-600">+37.5% increase</span> proves that educating consumers on value and context can effectively reframe price expectations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="brands" class="mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-4 text-[#1E3A8A]">The Brand Landscape</h2>
+            <p class="text-center text-lg text-gray-600 mb-12 max-w-3xl mx-auto">While supermarket giants dominate recognition, specialty brands have carved out a significant space. This is where Pablo & Rusty's fits into the competitive picture.</p>
+             <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold mb-4 text-center">Brand Recognition (Aided Awareness)</h3>
+                <div class="chart-container h-96 md:h-[500px]">
+                    <canvas id="brandsChart"></canvas>
+                </div>
+                <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <h4 class="font-bold text-lg text-[#1E3A8A]">Spotlight on Pablo & Rusty's</h4>
+                    <p class="text-gray-700 mt-2">With **9.3% awareness**, Pablo & Rusty's is a recognized name in the specialty coffee scene, competitive with peers like Industry Beans (9.5%). The key strategic opportunity is to convert this recognition into top-of-mind recall, bridging the gap to larger specialty players like Campos (36.6%) by focusing on the core drivers of taste, value, and consistency.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="habits" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-4 text-[#1E3A8A]">Specialty Insights & Consumption Habits</h2>
+            <p class="text-center text-lg text-gray-600 mb-12 max-w-3xl mx-auto">Understanding where, how, and what consumers drink provides context for the entire coffee experience.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-center">Decoding "Specialty Coffee"</h3>
+                    <div class="flex flex-col items-center">
+                        <div class="chart-container h-56">
+                            <canvas id="specialtyAwarenessChart"></canvas>
+                        </div>
+                        <p class="text-center text-sm text-gray-600 mt-4">While **59%** have heard of the term, their understanding is tied to tangible benefits. See what attributes they associate most with the term below.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-center">What "Specialty" Means to Consumers</h3>
+                     <div class="chart-container h-96">
+                        <canvas id="specialtyMeaningChart"></canvas>
+                    </div>
+                </div>
+            </div>
+             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-center">Where Coffee is Consumed</h3>
+                    <p class="text-center text-sm text-gray-600 mb-6">Home remains the primary hub, but cafe visits are a strong, regular ritual.</p>
+                    <div class="chart-container h-96">
+                         <canvas id="consumptionLocationChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-center">Coffee's Weekly Competition</h3>
+                     <p class="text-center text-sm text-gray-600 mb-6">Percentage of consumers drinking other popular beverages at least weekly.</p>
+                     <div class="chart-container h-96">
+                        <canvas id="otherBeveragesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-white mt-24">
+        <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-sm">
+            <p>Interactive Report created from the 2025 Australian Coffee Consumer Insights Survey.</p>
+            <p class="mt-1">&copy; 2025 Pablo & Rusty's Coffee Roasters. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const data = {
+                cafeVisits: {
+                    labels: ['Daily', 'Multiple times a week', 'Once a week', 'Multiple times a month', 'Once a month', 'Less than once a month'],
+                    values: [20.0, 26.47, 18.24, 8.59, 8.12, 8.35]
+                },
+                stateDistribution: {
+                    labels: ['NSW', 'VIC', 'QLD', 'WA', 'SA', 'TAS', 'ACT'],
+                    values: [32.24, 28.94, 20.47, 8.47, 7.53, 1.53, 0.82]
+                },
+                pricing: {
+                    smallHot: {
+                        label: 'Small Hot Coffee',
+                        optimal: '$4.88',
+                        range: '$3.97 – $5.18',
+                        labels: [0, 1, 2, 3, 3.97, 4.69, 4.88, 5.18, 6, 7, 8, 10, 12],
+                        datasets: [
+                            { label: 'Too Cheap', data: [100, 99, 75, 40, 15, 9, 8, 6, 4, 2, 1, 0, 0], borderColor: '#60A5FA', tension: 0.1, pointBackgroundColor: '#60A5FA' },
+                            { label: 'Cheap', data: [100, 100, 85, 60, 27, 15, 12, 10, 6, 4, 2, 1, 0], borderColor: '#93C5FD', tension: 0.1, pointBackgroundColor: '#93C5FD' },
+                            { label: 'Expensive', data: [0, 0, 1, 5, 13, 31, 53, 72, 85, 93, 97, 99, 100], borderColor: '#F59E0B', tension: 0.1, pointBackgroundColor: '#F59E0B' },
+                            { label: 'Too Expensive', data: [0, 0, 0, 2, 8, 12, 16, 22, 35, 69, 88, 95, 100], borderColor: '#1E3A8A', tension: 0.1, pointBackgroundColor: '#1E3A8A' }
+                        ]
+                    },
+                    largeHot: {
+                        label: 'Large Hot Coffee',
+                        optimal: '$5.20',
+                        range: '$4.99 – $6.20',
+                        labels: [0, 2, 4, 4.99, 5.20, 5.27, 6.20, 7, 8, 10, 12],
+                        datasets: [
+                            { label: 'Too Cheap', data: [100, 98, 70, 30, 26, 15, 8, 4, 2, 1, 0], borderColor: '#60A5FA', tension: 0.1, pointBackgroundColor: '#60A5FA' },
+                            { label: 'Cheap', data: [100, 99, 80, 40, 30, 15, 10, 5, 3, 1, 0], borderColor: '#93C5FD', tension: 0.1, pointBackgroundColor: '#93C5FD' },
+                            { label: 'Expensive', data: [0, 1, 5, 15, 30, 50, 65, 80, 90, 98, 100], borderColor: '#F59E0B', tension: 0.1, pointBackgroundColor: '#F59E0B' },
+                            { label: 'Too Expensive', data: [0, 0, 2, 10, 15, 20, 30, 50, 70, 90, 100], borderColor: '#1E3A8A', tension: 0.1, pointBackgroundColor: '#1E3A8A' }
+                        ]
+                    },
+                    smallIced: {
+                        label: 'Small Iced Coffee',
+                        optimal: '$4.95',
+                        range: '$4.05 – $5.37',
+                        labels: [0, 2, 4.05, 4.95, 4.96, 5.37, 6, 8, 10, 12],
+                        datasets: [
+                            { label: 'Too Cheap', data: [100, 80, 25, 12, 10, 8, 5, 2, 1, 0], borderColor: '#60A5FA', tension: 0.1, pointBackgroundColor: '#60A5FA' },
+                            { label: 'Cheap', data: [100, 90, 40, 21, 20, 15, 10, 5, 2, 1], borderColor: '#93C5FD', tension: 0.1, pointBackgroundColor: '#93C5FD' },
+                            { label: 'Expensive', data: [0, 2, 8, 20, 45, 60, 75, 95, 100, 100], borderColor: '#F59E0B', tension: 0.1, pointBackgroundColor: '#F59E0B' },
+                            { label: 'Too Expensive', data: [0, 1, 5, 15, 35, 50, 65, 85, 98, 100], borderColor: '#1E3A8A', tension: 0.1, pointBackgroundColor: '#1E3A8A' }
+                        ]
+                    },
+                    largeIced: {
+                        label: 'Large Iced Coffee',
+                        optimal: '$5.89',
+                        range: '$5.05 – $6.60',
+                        labels: [0, 2, 4, 5.05, 5.89, 5.91, 6.60, 8, 10, 12],
+                        datasets: [
+                            { label: 'Too Cheap', data: [100, 95, 70, 30, 15, 10, 8, 4, 1, 0], borderColor: '#60A5FA', tension: 0.1, pointBackgroundColor: '#60A5FA' },
+                            { label: 'Cheap', data: [100, 98, 75, 40, 25, 20, 15, 8, 3, 1], borderColor: '#93C5FD', tension: 0.1, pointBackgroundColor: '#93C5FD' },
+                            { label: 'Expensive', data: [0, 1, 4, 10, 25, 48, 62, 88, 97, 100], borderColor: '#F59E0B', tension: 0.1, pointBackgroundColor: '#F59E0B' },
+                            { label: 'Too Expensive', data: [0, 0, 2, 8, 18, 33, 55, 80, 95, 100], borderColor: '#1E3A8A', tension: 0.1, pointBackgroundColor: '#1E3A8A' }
+                        ]
+                    }
+                },
+                drivers: {
+                    labels: ['Taste & Quality', 'Price / Value', 'Consistency', 'Cleanliness', 'Staff Skill', 'Convenience', 'Speed of Service', 'Food Options', 'Roaster Brand', 'Sustainability', 'Specialty Focus', 'Design/Ambiance', 'Loyalty Scheme'],
+                    values: [79.84, 72.50, 70.98, 70.60, 59.57, 54.88, 45.88, 44.36, 33.97, 33.58, 32.96, 26.49, 24.72]
+                },
+                brands: {
+                    labels: ['Lavazza', 'Vittoria', 'Campos', "Toby's Estate", 'Mecca', 'St. Ali', 'Industry Beans', "Pablo & Rusty's", 'Market Lane', 'Ona', 'Single O', 'Stitch'],
+                    values: [81.4, 78.1, 36.6, 28.3, 23.7, 14.6, 9.5, 9.3, 8.2, 7.2, 5.3, 4.8]
+                },
+                specialtyAwareness: {
+                    labels: ['Heard of It', 'Never Heard of It'],
+                    values: [59.4, 40.6]
+                },
+                specialtyMeaning: {
+                    labels: ['High Quality Beans', 'Unique Flavours', 'Specific Origin', 'Higher Price', 'Freshly Roasted', 'Ethical Sourcing', 'Artisanal Methods', 'Independent Cafes', 'Better Tasting', 'Skilled Barista'],
+                    values: [69.3, 55.44, 54.8, 34.12, 30.49, 30.28, 30.28, 28.57, 29.42, 22.81]
+                },
+                consumptionLocation: {
+                    labels: ['At Home', 'At Work', 'Cafe (Home)', 'Cafe (Work)', 'Cafe (Other)', 'Petrol/Convenience', 'Fast Food'],
+                    datasets: [
+                        { label: 'Very Often', data: [54.75, 17.36, 8.11, 7.22, 4.06, 2.79, 3.42], backgroundColor: '#1E3A8A'},
+                        { label: 'Often', data: [18.38, 21.29, 18.63, 14.32, 10.90, 7.22, 7.73], backgroundColor: '#2563EB'},
+                        { label: 'Sometimes', data: [12.80, 17.11, 36.88, 26.11, 27.63, 17.11, 23.83], backgroundColor: '#60A5FA'},
+                        { label: 'Rarely', data: [9.13, 9.38, 25.98, 19.01, 41.70, 31.18, 35.23], backgroundColor: '#93C5FD'},
+                    ]
+                },
+                otherBeverages: {
+                     labels: ['Black/Green Tea', 'Chocolate', 'Herbal Tea', 'Energy Drinks', 'Chai', 'Decaf Coffee', 'Matcha', 'Bubble Tea'],
+                     datasets: [
+                        { label: 'Often/Very Often', data: [27.06, 12.94, 12.94, 12.82, 8.35, 7.29, 6.00, 5.41], backgroundColor: '#1E3A8A' },
+                        { label: 'Sometimes (1-2/wk)', data: [17.53, 20.24, 12.12, 13.88, 10.00, 7.76, 12.00, 8.94], backgroundColor: '#60A5FA' }
+                     ]
+                }
+            };
+
+            let pricingChartInstance;
+            const pricingCtx = document.getElementById('pricingChart').getContext('2d');
+            
+            function renderPricingChart(type) {
+                const chartData = data.pricing[type];
+                if (pricingChartInstance) {
+                    pricingChartInstance.destroy();
+                }
+                pricingChartInstance = new Chart(pricingCtx, {
+                    type: 'line',
+                    data: {
+                        labels: chartData.labels,
+                        datasets: chartData.datasets
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: { y: { beginAtZero: true, max: 100, ticks: { callback: value => `${value}%` } }, x: { title: { display: true, text: 'Price (AUD)' } } },
+                        plugins: { legend: { position: 'bottom' }, tooltip: { mode: 'index', intersect: false } },
+                        interaction: { mode: 'nearest', axis: 'x', intersect: false }
+                    }
+                });
+                document.getElementById('pricing-title').textContent = chartData.label;
+                document.getElementById('pricing-optimal').textContent = chartData.optimal;
+                document.getElementById('pricing-range').textContent = chartData.range;
+            }
+            
+            renderPricingChart('smallHot');
+
+            document.getElementById('pricing-tabs').addEventListener('click', e => {
+                if (e.target.tagName === 'BUTTON') {
+                    document.querySelectorAll('#pricing-tabs .tab-button').forEach(btn => btn.classList.remove('active'));
+                    e.target.classList.add('active');
+                    renderPricingChart(e.target.dataset.type);
+                }
+            });
+            
+            new Chart(document.getElementById('stateDistributionChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: data.stateDistribution.labels,
+                    datasets: [{
+                        label: '% of Respondents',
+                        data: data.stateDistribution.values,
+                        backgroundColor: '#60A5FA',
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { x: { beginAtZero: true, ticks: { callback: value => `${value}%` } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            new Chart(document.getElementById('cafeVisitChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: data.cafeVisits.labels,
+                    datasets: [{
+                        label: '% of Consumers',
+                        data: data.cafeVisits.values,
+                        backgroundColor: '#60A5FA',
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { x: { ticks: { callback: value => `${value}%` } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            new Chart(document.getElementById('driversChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: data.drivers.labels,
+                    datasets: [{
+                        label: '% Rating as Very/Extremely Important',
+                        data: data.drivers.values,
+                        backgroundColor: '#60A5FA',
+                        borderColor: '#1E3A8A',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                    scales: { x: { beginAtZero: true, max: 100, ticks: { callback: value => `${value}%` } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            new Chart(document.getElementById('brandsChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: data.brands.labels,
+                    datasets: [{
+                        label: 'Aided Brand Awareness',
+                        data: data.brands.values,
+                        backgroundColor: (context) => (context.label === "Pablo & Rusty's" ? '#2563EB' : '#93C5FD'),
+                        borderColor: '#1E3A8A',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                     scales: { x: { beginAtZero: true, max: 100, ticks: { callback: value => `${value}%` } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            new Chart(document.getElementById('specialtyAwarenessChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: data.specialtyAwareness.labels,
+                    datasets: [{
+                        data: data.specialtyAwareness.values,
+                        backgroundColor: ['#2563EB', '#D1D5DB'],
+                        borderColor: '#F7F9FB',
+                        borderWidth: 4
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+            });
+            
+            new Chart(document.getElementById('specialtyMeaningChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: data.specialtyMeaning.labels,
+                    datasets: [{
+                        label: '% Who Associate Term with Attribute',
+                        data: data.specialtyMeaning.values,
+                        backgroundColor: '#60A5FA',
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                    scales: { x: { beginAtZero: true, max: 80, ticks: { callback: value => `${value}%` } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            new Chart(document.getElementById('consumptionLocationChart').getContext('2d'), {
+                type: 'bar',
+                data: data.consumptionLocation,
+                options: {
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                    scales: { x: { stacked: true, ticks: { callback: value => `${value}%` } }, y: { stacked: true } },
+                    plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: function(c) { return `${c.dataset.label}: ${c.parsed.x.toFixed(2)}%`; } } } }
+                }
+            });
+
+            new Chart(document.getElementById('otherBeveragesChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: data.otherBeverages.labels,
+                    datasets: data.otherBeverages.datasets,
+                },
+                options: {
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                    scales: { x: { stacked: true, beginAtZero: true, ticks: { callback: value => `${value}%` } }, y: { stacked: true } },
+                    plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: function(c) { return `${c.dataset.label}: ${c.parsed.x.toFixed(2)}%`; } } } }
+                }
+            });
+            
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 80) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
